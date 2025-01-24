@@ -1,3 +1,5 @@
+using System.Globalization;
+
 namespace ExerciseFiles.Entities;
 
 public class Product
@@ -15,6 +17,11 @@ public class Product
         Name = name;
         Price = price;
         Quantity = quantity;
+    }
+
+    public override string ToString()
+    {
+        return $"{Name}, {TotalPrice(Price, Quantity).ToString("F2", CultureInfo.InvariantCulture)}";
     }
 
     public double TotalPrice(double price, int quantity)
