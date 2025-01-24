@@ -1,4 +1,5 @@
-﻿using ExerciseFiles.Entities;
+﻿using System.Globalization;
+using ExerciseFiles.Entities;
 
 namespace ExerciseFiles;
 
@@ -6,8 +7,8 @@ class Program
 {
     static void Main(string[] args)
     {
-        string sourcePath = @"/home/temp/products.csv";
-        List<Product> products = new List<Product>();
+        string sourcePath = @"/home/fabricio/temp/exercise-files-csharp/products.csv";
+        string targetPath = @"/home/fabricio/temp/exercise-files-csharp/out/";
 
         try
         {
@@ -17,13 +18,10 @@ class Program
             {
                 string[] productData = line.Split(",");
                 string productName = productData[0];
-                double productPrice = double.Parse(productData[1]);
+                double productPrice = double.Parse(productData[1], CultureInfo.InvariantCulture);
                 int productQty = int.Parse(productData[2]);
 
                 Product product = new Product(productName, productPrice, productQty);
-
-                products.Add(product);
-                double productTotalPrice = product.TotalPrice(product.Price, product.Quantity);
 
             }
 
