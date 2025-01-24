@@ -23,6 +23,17 @@ class Program
 
                 Product product = new Product(productName, productPrice, productQty);
 
+                if (!Directory.Exists(targetPath))
+                {
+                    Directory.CreateDirectory(targetPath);
+                }
+
+                string filePath = targetPath + "summary.csv";
+
+                using (StreamWriter sw = File.AppendText(filePath))
+                {
+                    sw.WriteLine(product.ToString());
+                }
             }
 
         }
