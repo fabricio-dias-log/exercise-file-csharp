@@ -7,31 +7,32 @@ class Program
 {
     static void Main(string[] args)
     {
-        string sourcePath = @"/home/fabricio/temp/exercise-files-csharp/products.csv";
-        string targetPath = @"/home/fabricio/temp/exercise-files-csharp/out/";
+        Console.Write("Enter file full path: ");
+        string sourceFilePath = Console.ReadLine();
 
         try
         {
-            string[] lines = File.ReadAllLines(sourcePath);
+            string[] lines = File.ReadAllLines(sourceFilePath);
+            string sourceFolderPath = Path.GetDirectoryName(sourceFilePath);
+            string targetFolderPath = sourceFolderPath + @"/out";
+            string targetFilePath = targetFolderPath + @"/summary.csv";
 
-            foreach (var line in lines)
+            if (!Directory.Exists(targetFolderPath))
             {
-                string[] productData = line.Split(",");
-                string productName = productData[0];
-                double productPrice = double.Parse(productData[1], CultureInfo.InvariantCulture);
-                int productQty = int.Parse(productData[2]);
+                Directory.CreateDirectory(targetFolderPath);
+            }
 
-                Product product = new Product(productName, productPrice, productQty);
-
-                if (!Directory.Exists(targetPath))
+            using (StreamWriter sw = File.AppendText(targetFilePath))
+            {
+                foreach (var line in lines)
                 {
-                    Directory.CreateDirectory(targetPath);
-                }
+                    string[] productData = line.Split(",");
+                    string productName = productData[0];
+                    double productPrice = double.Parse(productData[1], CultureInfo.InvariantCulture);
+                    int productQty = int.Parse(productData[2]);
 
-                string filePath = targetPath + "summary.csv";
+                    Product product = new Product(productName, productPrice, productQty);
 
-                using (StreamWriter sw = File.AppendText(filePath))
-                {
                     sw.WriteLine(product.ToString());
                 }
             }
